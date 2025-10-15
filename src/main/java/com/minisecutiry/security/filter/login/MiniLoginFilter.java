@@ -1,11 +1,9 @@
-package com.minisecutiry.security.filter;
+package com.minisecutiry.security.filter.login;
 
 import com.minisecutiry.member.MiniMemberDetails;
 import com.minisecutiry.security.config.cookie.MiniCookieProvider;
-import com.minisecutiry.security.config.cookie.MiniCookieProviderImpl;
 import com.minisecutiry.security.config.MiniJwtProperties;
 import com.minisecutiry.security.config.jwt.MiniJwtProvider;
-import com.minisecutiry.security.config.jwt.MiniJwtProviderImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -13,6 +11,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.crypto.SecretKey;
 import java.io.IOException;
 
+@Slf4j
 @RequiredArgsConstructor
 public class MiniLoginFilter extends UsernamePasswordAuthenticationFilter {
 
@@ -50,8 +50,8 @@ public class MiniLoginFilter extends UsernamePasswordAuthenticationFilter {
             throws IOException {
         MiniMemberDetails member = (MiniMemberDetails) authResult.getPrincipal();
 
-        String accessToken = buildJwtToken(member);
-        response.addHeader("accessToken",  accessToken);
+        String accessToken = properties.getTokenPrefix() + buildJwtToken(member);
+        response.addHeader(properties.getJwtHeaderString(),  accessToken);
 
         String refreshToken = buildRefreshToken(member);
         Cookie refreshTokenCookie = cookieProvider.buildCookie(properties.getRefreshHeaderString(), refreshToken, properties.getRefreshTokenExpiration());
@@ -77,6 +77,7 @@ public class MiniLoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void unsuccessfulAuthentication(
             HttpServletRequest request, HttpServletResponse response, AuthenticationException failed)
             throws IOException, ServletException {
+        log.warn(failed.getMessage());
         response.setStatus(HttpStatus.FORBIDDEN.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");

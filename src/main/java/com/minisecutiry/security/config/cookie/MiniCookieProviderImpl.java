@@ -1,13 +1,12 @@
-package com.minisecutiry.security.config;
+package com.minisecutiry.security.config.cookie;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 
-@Component
-public class MiniCookieProviderImpl {
+public class MiniCookieProviderImpl implements MiniCookieProvider {
+    @Override
     public Cookie buildCookie(String name, String value, int maxAge) {
         Cookie cookie = new Cookie(name, value);
         cookie.setHttpOnly(true);
@@ -18,6 +17,7 @@ public class MiniCookieProviderImpl {
         return cookie;
     }
 
+    @Override
     public String getCookieStringByRequest(HttpServletRequest request, String name) {
         if (request.getCookies() == null) return null;
 

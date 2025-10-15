@@ -1,4 +1,7 @@
 package com.minisecutiry.member;
 
-public class MiniMemberRepository {
+import java.util.Optional;
+
+public interface MiniMemberRepository {
+    Optional<MiniMember> findByUsername(String username);
 }
