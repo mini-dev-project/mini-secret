@@ -5,7 +5,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Arrays;
 
-public class MiniCookieProviderImpl implements MiniCookieProvider {
+public class MiniCookieProviderBasic implements MiniCookieProvider {
     @Override
     public Cookie buildCookie(String name, String value, int maxAge) {
         Cookie cookie = new Cookie(name, value);

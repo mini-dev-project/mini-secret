@@ -4,13 +4,13 @@ import com.minisecutiry.member.MiniMemberDetails;
 import com.minisecutiry.security.config.cookie.MiniCookieProvider;
 import com.minisecutiry.security.config.MiniJwtProperties;
 import com.minisecutiry.security.config.jwt.MiniJwtProvider;
+import com.minisecutiry.security.filter.MiniFilterContext;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,13 +24,19 @@ import javax.crypto.SecretKey;
 import java.io.IOException;
 
 @Slf4j
-@RequiredArgsConstructor
-public class MiniLoginFilter extends UsernamePasswordAuthenticationFilter {
+public class MiniLoginFilterBasic extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final MiniJwtProvider jwtProvider;
     private final MiniCookieProvider cookieProvider;
     private final MiniJwtProperties properties;
+
+    public MiniLoginFilterBasic(MiniFilterContext context) {
+        this.authenticationManager = context.authenticationManager();
+        this.jwtProvider = context.jwtProvider();
+        this.cookieProvider = context.cookieProvider();
+        this.properties = context.properties();
+    }
 
     @Override
     public Authentication attemptAuthentication(

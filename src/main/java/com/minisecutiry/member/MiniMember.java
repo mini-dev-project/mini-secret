@@ -1,5 +1,6 @@
 package com.minisecutiry.member;
 
+import com.minisecutiry.member.social.MiniOAuthProvider;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,6 +21,10 @@ public class MiniMember {
     @Id
     @GeneratedValue
     private UUID id;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private MiniOAuthProvider provider = MiniOAuthProvider.LOCAL;
 
     @Column(nullable = false, unique = true)
     private String username;

@@ -4,17 +4,23 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.*;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class MiniMemberDetails implements UserDetails {
+public class MiniMemberDetails implements UserDetails, OAuth2User {
     private final MiniMember member;
 
     public UUID getId() { return member.getId(); }
     public String getName() {
         return member.getName();
+    }
+
+    @Override
+    public Map<String, Object> getAttributes() {
+        return Map.of();
     }
 
     @Override

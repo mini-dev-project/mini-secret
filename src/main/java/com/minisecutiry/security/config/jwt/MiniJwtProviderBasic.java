@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MiniJwtProviderImpl implements MiniJwtProvider {
+public class MiniJwtProviderBasic implements MiniJwtProvider {
     @Override
     public SecretKey getKey(String secretKey) {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));

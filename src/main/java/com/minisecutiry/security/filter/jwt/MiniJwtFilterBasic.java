@@ -3,6 +3,7 @@ package com.minisecutiry.security.filter.jwt;
 import com.minisecutiry.member.MiniMemberDetails;
 import com.minisecutiry.security.config.MiniJwtProperties;
 import com.minisecutiry.security.config.jwt.MiniJwtProvider;
+import com.minisecutiry.security.filter.MiniFilterContext;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -19,14 +20,19 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.crypto.SecretKey;
 import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class MiniJwtFilter extends OncePerRequestFilter {
+public class MiniJwtFilterBasic extends OncePerRequestFilter {
 
     private final MiniJwtProvider jwtProvider;
     private final MiniJwtProperties properties;
+
+    public MiniJwtFilterBasic(MiniFilterContext context) {
+        this.jwtProvider = context.jwtProvider();
+        this.properties = context.properties();
+    }
+
 
     @Override
     protected void doFilterInternal(
