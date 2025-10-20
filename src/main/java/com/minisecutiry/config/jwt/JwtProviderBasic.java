@@ -1,7 +1,7 @@
-package com.minisecutiry.security.config.jwt;
+package com.minisecutiry.config.jwt;
 
-import com.minisecutiry.member.MiniMember;
-import com.minisecutiry.member.MiniMemberDetails;
+import com.minisecutiry.member.infra.MiniMember;
+import com.minisecutiry.member.model.MiniMemberDetails;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class MiniJwtProviderBasic implements MiniJwtProvider {
+public class JwtProviderBasic implements JwtProvider {
     @Override
     public SecretKey getKey(String secretKey) {
         return Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));

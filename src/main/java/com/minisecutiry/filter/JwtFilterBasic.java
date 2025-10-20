@@ -1,9 +1,9 @@
-package com.minisecutiry.security.filter.jwt;
+package com.minisecutiry.filter;
 
-import com.minisecutiry.member.MiniMemberDetails;
-import com.minisecutiry.security.config.MiniJwtProperties;
-import com.minisecutiry.security.config.jwt.MiniJwtProvider;
-import com.minisecutiry.security.filter.MiniFilterContext;
+import com.minisecutiry.config.jwt.JwtProvider;
+import com.minisecutiry.member.model.MiniMemberDetails;
+import com.minisecutiry.config.SecurityProperties;
+import com.minisecutiry.config.FilterContext;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
@@ -23,12 +23,12 @@ import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
-public class MiniJwtFilterBasic extends OncePerRequestFilter {
+public class JwtFilterBasic extends OncePerRequestFilter {
 
-    private final MiniJwtProvider jwtProvider;
-    private final MiniJwtProperties properties;
+    private final JwtProvider jwtProvider;
+    private final SecurityProperties properties;
 
-    public MiniJwtFilterBasic(MiniFilterContext context) {
+    public JwtFilterBasic(FilterContext context) {
         this.jwtProvider = context.jwtProvider();
         this.properties = context.properties();
     }

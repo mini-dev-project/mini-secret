@@ -1,8 +1,6 @@
-package com.minisecutiry.member;
+package com.minisecutiry.member.infra;
 
-import com.minisecutiry.member.social.MiniOAuthProvider;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,6 +8,7 @@ import lombok.experimental.SuperBuilder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -18,15 +17,25 @@ import java.util.UUID;
 @NoArgsConstructor
 @MappedSuperclass
 public class MiniMember {
+
+    protected MiniMember(MiniMember miniMember) {
+        this.id = miniMember.id;
+        this.username = miniMember.username;
+        this.password = miniMember.password;
+        this.provider = miniMember.provider;
+
+        this.name = miniMember.name;
+        this.email = miniMember.email;
+
+        this.status = Optional.ofNullable(miniMember.status).orElse("ACTIVE");
+        this.roles = miniMember.roles;
+    }
+
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Builder.Default
-    @Enumerated(EnumType.STRING)
-    private MiniOAuthProvider provider = MiniOAuthProvider.LOCAL;
-
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, updatable = false)
     private String username;
 
     @Column(nullable = false)
@@ -35,9 +44,21 @@ public class MiniMember {
     public void updatePassword(String password, PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(password);
     }
-    private String name;
 
-    private String status;
+    @Builder.Default
+    @Column(updatable = false)
+    private String provider = "local";
+
+    private String name;
+    private String email;
+
+    @Builder.Default
+    @Column(nullable = false)
+    private String status = "active";
+
+    public void updateStatus(String status) {
+        this.status = status;
+    }
 
     @Builder.Default
     @ElementCollection(fetch = FetchType.EAGER)

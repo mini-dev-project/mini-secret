@@ -9,11 +9,6 @@ public class MiniGoogleOAuthMemberDetails implements MiniOAuthMemberDetails {
     private Map<String, Object> attributes;
 
     @Override
-    public MiniOAuthProvider getProvider() {
-        return MiniOAuthProvider.GOOGLE;
-    }
-
-    @Override
     public String getProviderId() {
         return (String) attributes.get("sub");
     }

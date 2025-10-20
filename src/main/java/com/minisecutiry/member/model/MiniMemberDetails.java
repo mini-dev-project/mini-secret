@@ -1,5 +1,6 @@
-package com.minisecutiry.member;
+package com.minisecutiry.member.model;
 
+import com.minisecutiry.member.infra.MiniMember;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,7 +53,7 @@ public class MiniMemberDetails implements UserDetails, OAuth2User {
 
     @Override
     public boolean isAccountNonLocked() {
-        return "ACTIVE".equalsIgnoreCase(member.getStatus());
+        return "active".equalsIgnoreCase(member.getStatus());
     }
 
     @Override

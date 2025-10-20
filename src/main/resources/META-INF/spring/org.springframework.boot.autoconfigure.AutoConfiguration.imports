@@ -1,2 +1,2 @@
-com.minisecutiry.security.config.MiniDefaultSecurityConfig
-com.minisecutiry.security.config.MiniDefaultConfig
+com.minisecutiry.util.MiniDefaultSecurityConfig
+com.minisecutiry.util.MiniDefaultConfig

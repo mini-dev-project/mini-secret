@@ -1,4 +1,4 @@
-package com.minisecutiry.security.config;
+package com.minisecutiry.util;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;

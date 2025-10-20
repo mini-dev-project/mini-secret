@@ -1,4 +1,4 @@
-package com.minisecutiry.security.config;
+package com.minisecutiry.config;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Setter
 @Component
 @ConfigurationProperties(prefix = "mini-jwt")
-public class MiniJwtProperties {
+public class SecurityProperties {
     private String jwtSecret;
     private String refreshSecret;
 
