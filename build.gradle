@@ -1,23 +1,70 @@
+import com.vanniktech.maven.publish.SonatypeHost
+
 plugins {
     id 'java-library'
-    id 'maven-publish'
     id 'io.spring.dependency-management' version '1.1.7'
+    id "com.vanniktech.maven.publish" version "0.28.0"
+    id 'signing'
 }
-
-group = 'mini.security'
-version = '0.0.1'
-description = 'MiniSecurity - Simple Security + JPA Integration Layer'
 
 repositories {
     mavenCentral()
+}
+
+tasks.withType(Javadoc) {
+    options {
+        encoding 'UTF-8'
+    }
+}
+
+signing {
+    useGpgCmd()
+    sign publishing.publications
+}
+
+group = "io.github.mini0192"
+version = "0.0.1"
+description = "MiniSecurity - Simple Security + JPA Integration Layer"
+
+mavenPublishing {
+//    publishToMavenCentral("S01")
+    signAllPublications()
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+
+    coordinates("io.github.mini0192", "mini-secret", version)
+
+    pom {
+        name = 'mini-secret'
+        description = 'Secret Library'
+        url = 'https://github.com/mini-dev-project/mini-secret'
+
+        licenses {
+            license {
+                name = 'Apache License'
+                url = 'https://github.com/mini-dev-project/mini-secret/blob/main/LICENSE'
+            }
+        }
+
+        developers {
+            developer {
+                id = 'mini0192'
+                name = 'gunnuPark'
+                email = 'parkgw9071@gmail.com'
+            }
+        }
+
+        scm {
+            connection = 'scm:git:github.com/mini-dev-project/mini-secret.git'
+            developerConnection = 'scm:git:ssh://github.com/mini-dev-project/mini-secret.git'
+            url = 'https://github.com/mini-dev-project/mini-secret/tree/main'
+        }
+    }
 }
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
     }
-    withSourcesJar()
-    withJavadocJar()
 }
 
 dependencyManagement {
@@ -47,13 +94,6 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            from components.java
-            groupId = 'mini'
-            artifactId = 'security'
-            version = '0.0.1'
-        }
-    }
+jar {
+    enabled = true
 }
