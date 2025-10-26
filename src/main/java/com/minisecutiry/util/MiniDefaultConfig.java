@@ -2,23 +2,16 @@ package com.minisecutiry.util;
 
 import com.minisecutiry.config.FilterContext;
 import com.minisecutiry.config.SecurityProperties;
+import com.minisecutiry.config.jwt.JwtProviderBasic;
 import com.minisecutiry.filter.OAuthSuccessHandler;
-import com.minisecutiry.member.service.MemberDetailsService;
-import com.minisecutiry.member.infra.MiniMemberRepository;
 import com.minisecutiry.config.cookie.CookieProvider;
 import com.minisecutiry.config.cookie.CookieProviderBasic;
 import com.minisecutiry.config.jwt.JwtProvider;
-import com.minisecutiry.config.jwt.JwtProviderBasic;
-import com.minisecutiry.member.service.OAuthMemberSaver;
-import com.minisecutiry.member.service.OAuthMemberDetailsService;
-import com.minisecutiry.member.service.OAuthMemberSaverBasic;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import com.minisecutiry.filter.SuccessHandler;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 @Configuration(proxyBeanMethods = false)
@@ -42,13 +35,6 @@ public class MiniDefaultConfig {
     }
 
     @Bean
-    @ConditionalOnBean(MiniMemberRepository.class)
-    @ConditionalOnMissingBean(UserDetailsService.class)
-    public UserDetailsService userDetailsService(MiniMemberRepository<?> memberRepository) {
-        return new MemberDetailsService(memberRepository);
-    }
-
-    @Bean
     @ConditionalOnMissingBean(FilterContext.class)
     public FilterContext miniFilterContext(AuthenticationConfiguration authConfig,
                                            JwtProvider jwtProvider,
@@ -69,16 +55,8 @@ public class MiniDefaultConfig {
     }
 
     @Bean
-    @ConditionalOnMissingBean(OAuthMemberSaver.class)
-    public OAuthMemberSaver oAuthMemberSaver() {
-        return new OAuthMemberSaverBasic();
-    }
-
-    @Bean
-    @ConditionalOnBean(MiniMemberRepository.class)
-    @ConditionalOnMissingBean(DefaultOAuth2UserService.class)
-    public DefaultOAuth2UserService defaultOAuth2UserService(MiniMemberRepository<?> memberRepository,
-                                                             OAuthMemberSaver memberSaver) {
-        return new OAuthMemberDetailsService(memberRepository, memberSaver);
+    @ConditionalOnMissingBean(SuccessHandler.class)
+    public SuccessHandler miniSuccessHandler(FilterContext context) {
+        return new SuccessHandler(context);
     }
 }

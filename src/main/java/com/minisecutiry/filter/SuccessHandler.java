@@ -2,9 +2,9 @@ package com.minisecutiry.filter;
 
 import com.minisecutiry.config.FilterContext;
 import com.minisecutiry.config.SecurityProperties;
+import com.minisecutiry.config.jwt.JwtProvider;
 import com.minisecutiry.member.model.MiniMemberDetails;
 import com.minisecutiry.config.cookie.CookieProvider;
-import com.minisecutiry.config.jwt.JwtProvider;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,13 +30,11 @@ public class SuccessHandler {
 
     public void successHandler(HttpServletRequest request,
                                HttpServletResponse response,
-                               Authentication authentication) {
-        MiniMemberDetails member = (MiniMemberDetails) authentication.getPrincipal();
-
-        String accessToken = properties.getTokenPrefix() + buildJwtToken(member);
+                               MiniMemberDetails memberDetails) {
+        String accessToken = properties.getTokenPrefix() + buildJwtToken(memberDetails);
         response.addHeader(properties.getJwtHeaderString(),  accessToken);
 
-        String refreshToken = buildRefreshToken(member);
+        String refreshToken = buildRefreshToken(memberDetails);
         Cookie refreshTokenCookie = cookieProvider.buildCookie(properties.getRefreshHeaderString(), refreshToken, properties.getRefreshTokenExpiration());
         refreshTokenCookie.setPath("/");
         response.addCookie(refreshTokenCookie);

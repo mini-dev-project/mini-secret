@@ -23,7 +23,7 @@ signing {
 }
 
 group = "io.github.mini0192"
-version = "0.0.1"
+version = "0.0.2"
 description = "MiniSecurity - Simple Security + JPA Integration Layer"
 
 mavenPublishing {

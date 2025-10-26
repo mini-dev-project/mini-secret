@@ -1,6 +1,7 @@
 package com.minisecutiry.filter;
 
 import com.minisecutiry.config.FilterContext;
+import com.minisecutiry.member.model.MiniMemberDetails;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +44,8 @@ public class LoginFilterBasic extends UsernamePasswordAuthenticationFilter {
             FilterChain chain,
             Authentication authResult)
             throws IOException {
-        successHandler.successHandler(request, response, authResult);
+        MiniMemberDetails memberDetails = (MiniMemberDetails) authResult.getPrincipal();
+        successHandler.successHandler(request, response, memberDetails);
     }
 
     @Override
