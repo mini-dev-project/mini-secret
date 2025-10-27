@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
 
 import javax.crypto.SecretKey;
 
@@ -32,7 +31,7 @@ public class SuccessHandler {
                                HttpServletResponse response,
                                MiniMemberDetails memberDetails) {
         String accessToken = properties.getTokenPrefix() + buildJwtToken(memberDetails);
-        response.addHeader(properties.getJwtHeaderString(),  accessToken);
+        response.addHeader(properties.getJwtHeaderString(), accessToken);
 
         String refreshToken = buildRefreshToken(memberDetails);
         Cookie refreshTokenCookie = cookieProvider.buildCookie(properties.getRefreshHeaderString(), refreshToken, properties.getRefreshTokenExpiration());

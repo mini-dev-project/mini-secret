@@ -4,4 +4,5 @@ public interface MiniOAuthMemberDetails {
     String getProviderId();
     String getEmail();
     String getName();
+    String getPicture();
 }

@@ -20,6 +20,7 @@ public class MiniMemberDetails implements UserDetails, OAuth2User {
     }
     public String getEmail() { return member.getEmail(); }
     public String getProvider() { return member.getProvider(); }
+    public String getPicture() { return member.getPicture(); }
 
     @Override
     public Map<String, Object> getAttributes() {

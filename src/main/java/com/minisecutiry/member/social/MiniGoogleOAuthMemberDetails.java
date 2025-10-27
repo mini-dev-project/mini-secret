@@ -22,4 +22,9 @@ public class MiniGoogleOAuthMemberDetails implements MiniOAuthMemberDetails {
     public String getName() {
         return (String) attributes.get("name");
     }
+
+    @Override
+    public String getPicture() {
+        return (String) attributes.get("picture");
+    }
 }

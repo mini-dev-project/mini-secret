@@ -10,6 +10,7 @@ public interface MiniMember {
     String getProvider();
     String getEmail();
     String getName();
+    String getPicture();
     String getStatus();
     Set<String> getRoles();
 }
